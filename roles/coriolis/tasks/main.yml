@@ -15,7 +15,6 @@
     - libqt4-dev
     - libpthread-workqueue-dev 
     - libglpk-dev
-   #- latex209-bin
     - graphviz
     - latex2html
     - imagemagick
