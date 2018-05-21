@@ -6,6 +6,7 @@ Vagrant.configure(2) do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.memory = "8192"
     vb.cpus = "8"
+    vb.customize ["modifyvm", :id, "--hwvirtex", "on"]
   end
 
   config.vm.box = "ubuntu/trusty64"

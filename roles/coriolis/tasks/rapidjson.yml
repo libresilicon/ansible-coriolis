@@ -1,0 +1,31 @@
+---
+
+
+- name: Clone rapidjson
+  git:
+    repo: "http://github.com/miloyip/rapidjson"
+    dest: "{{ ansible_env.HOME }}/coriolis-2.x/src/support/rapidjson"
+    version: ec322005072076ef53984462fb4a1075c27c7dfd
+    clone: True
+    update: True
+
+- name: Make build dir for rapidjson
+  file:
+    name: "{{ ansible_env.HOME }}/coriolis-2.x/src/support/rapidjson/build"
+    state: directory
+
+- name: Build rapidjson
+  shell: "cmake .. && make -j"
+  args:
+    chdir: "{{ ansible_env.HOME }}/coriolis-2.x/src/support/rapidjson/build"
+    executable: "/bin/bash"
+
+- name: Install rapidjson
+  shell: "make install"
+  args:
+    chdir: "{{ ansible_env.HOME }}/coriolis-2.x/src/support/rapidjson/build"
+    executable: "/bin/bash"
+  become: True
+  become_method: sudo
+
+

@@ -2,6 +2,8 @@
 
 - hosts: all
   user: vagrant
+  vars_files:
+    - vars/versions.yml
   roles:
     - coriolis
 

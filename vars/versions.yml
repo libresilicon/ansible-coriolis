@@ -1,0 +1,10 @@
+---
+
+#lemonversion: lemon-1.1.6
+lemonversion: lemon-1.2.4
+
+coriolisrepo: https://www-soc.lip6.fr/git/coriolis.git
+
+#coriolisbranch: master
+coriolisbranch: devel
+

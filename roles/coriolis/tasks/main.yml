@@ -23,6 +23,10 @@
     - bison
     - flex
     - doxygen
+    # needed for coriolis devel branch
+    - bzip2
+    - libbz2-dev
+    - texlive-fonts-extra
   become: True
   become_method: sudo
 
@@ -33,28 +37,33 @@
 
 - name: Download and unpack lemon
   unarchive:
-    src: http://lemon.cs.elte.hu/pub/sources/lemon-1.1.6.zip
+    src: "http://lemon.cs.elte.hu/pub/sources/{{ lemonversion }}.zip"
     dest: "{{ ansible_env.HOME }}"
     remote_src: True
 
 - name: Build lemon
   shell: "./configure && make -j"
   args:
-    chdir: "{{ ansible_env.HOME }}/lemon-1.1.6"
+    chdir: "{{ ansible_env.HOME }}/{{ lemonversion }}"
     executable: "/bin/bash"
 
 - name: Install lemon
   shell: "make install"
   args:
-    chdir: "{{ ansible_env.HOME }}/lemon-1.1.6"
+    chdir: "{{ ansible_env.HOME }}/{{ lemonversion }}"
     executable: "/bin/bash"
   become: True
   become_method: sudo
 
+# only for devel branch of coriolis
+- include: roles/coriolis/tasks/rapidjson.yml 
+
 - name: Clone coriolis
   git:
-    repo: https://github.com/libresilicon/coriolis.git
+    repo: "{{ coriolisrepo }}"
+     # https://github.com/libresilicon/coriolis.git
     dest: "{{ ansible_env.HOME }}/coriolis-2.x/src/coriolis"
+    version: "{{ coriolisbranch }}"
     clone: True
     update: True
 
