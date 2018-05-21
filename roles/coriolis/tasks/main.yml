@@ -19,6 +19,7 @@
     - graphviz
     - latex2html
     - imagemagick
+    - unzip
     - rest2web
     - bison
     - flex
@@ -26,10 +27,15 @@
   become: True
   become_method: sudo
 
+- name: Make lemon Dir
+  file:
+    name: "{{ ansible_env.HOME }}/lemon-1.1.6"
+    state: directory
+
 - name: Download and unpack lemon
   unarchive:
     src: http://lemon.cs.elte.hu/pub/sources/lemon-1.1.6.zip
-    dest: "{{ ansible_env.HOME }}/lemon-1.1.6"
+    dest: "{{ ansible_env.HOME }}"
     remote_src: True
 
 - name: Build lemon
