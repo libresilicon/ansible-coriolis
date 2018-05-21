@@ -1,0 +1,9 @@
+---
+
+- hosts: devvm
+  user: stefan
+  roles:
+    - coriolis
+
+
+

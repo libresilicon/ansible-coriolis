@@ -1,0 +1,63 @@
+---
+
+- name: Install all available dependencies
+  apt:
+    name: '{{ item }}'
+    state: latest
+    update_cache: True
+  with_items:
+    - git
+    - vim
+    - build-essential
+    - libxml2-dev
+    - libboost-all-dev
+    - cmake
+    - libqt4-dev
+    - libpthread-workqueue-dev 
+    - libglpk-dev
+   #- latex209-bin
+    - graphviz
+    - latex2html
+    - imagemagick
+    - rest2web
+    - bison
+    - flex
+    - doxygen
+  become: True
+  become_method: sudo
+
+- name: Download and unpack lemon
+  unarchive:
+    src: http://lemon.cs.elte.hu/pub/sources/lemon-1.1.6.zip
+    dest: "{{ ansible_env.HOME }}/lemon-1.1.6"
+    remote_src: True
+
+- name: Build lemon
+  shell: "./configure && make -j"
+  args:
+    chdir: "{{ ansible_env.HOME }}/lemon-1.1.6"
+    executable: "/bin/bash"
+
+- name: Install lemon
+  shell: "make install"
+  args:
+    chdir: "{{ ansible_env.HOME }}/lemon-1.1.6"
+    executable: "/bin/bash"
+  become: True
+  become_method: sudo
+
+- name: Clone coriolis
+  git:
+    repo: https://github.com/libresilicon/coriolis.git
+    dest: "{{ ansible_env.HOME }}/coriolis-2.x/src/coriolis"
+    clone: True
+    update: True
+
+- name: Build coriolis
+  shell: "make -j install"
+  args:
+    chdir: "{{ ansible_env.HOME }}/coriolis-2.x/src/coriolis"
+    executable: "/bin/bash"
+
+
+
