@@ -59,11 +59,15 @@
     clone: True
     update: True
 
-- name: Build coriolis
+- name: Build coriolis two time (LaTeX second run)
   shell: "make -j install"
   args:
     chdir: "{{ ansible_env.HOME }}/coriolis-2.x/src/coriolis"
     executable: "/bin/bash"
+  ignore_errors: '{{ item }}'
+  with_items:
+    - True
+    - False
 
 
 
